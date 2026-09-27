@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedIdeasRouteImport } from './routes/_authenticated/ideas'
+import { Route as AuthenticatedStreamsIndexRouteImport } from './routes/_authenticated/streams.index'
+import { Route as AuthenticatedStreamsStreamIdRouteImport } from './routes/_authenticated/streams.$streamId'
 import { Route as AuthenticatedYoutubeIndexRouteImport } from './routes/_authenticated/youtube.index'
 import { Route as AuthenticatedYoutubeVideoIdRouteImport } from './routes/_authenticated/youtube.$videoId'
 
@@ -29,6 +32,23 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedIdeasRoute = AuthenticatedIdeasRouteImport.update({
+  id: '/ideas',
+  path: '/ideas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStreamsIndexRoute =
+  AuthenticatedStreamsIndexRouteImport.update({
+    id: '/streams/',
+    path: '/streams/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStreamsStreamIdRoute =
+  AuthenticatedStreamsStreamIdRouteImport.update({
+    id: '/streams/$streamId',
+    path: '/streams/$streamId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedYoutubeIndexRoute =
   AuthenticatedYoutubeIndexRouteImport.update({
     id: '/youtube/',
@@ -45,13 +65,19 @@ const AuthenticatedYoutubeVideoIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/ideas': typeof AuthenticatedIdeasRoute
+  '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
+  '/streams/': typeof AuthenticatedStreamsIndexRoute
   '/youtube/': typeof AuthenticatedYoutubeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/ideas': typeof AuthenticatedIdeasRoute
+  '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
+  '/streams': typeof AuthenticatedStreamsIndexRoute
   '/youtube': typeof AuthenticatedYoutubeIndexRoute
 }
 export interface FileRoutesById {
@@ -59,20 +85,40 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/ideas': typeof AuthenticatedIdeasRoute
+  '/_authenticated/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/_authenticated/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
+  '/_authenticated/streams/': typeof AuthenticatedStreamsIndexRoute
   '/_authenticated/youtube/': typeof AuthenticatedYoutubeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/youtube/$videoId' | '/youtube/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/ideas'
+    | '/streams/$streamId'
+    | '/youtube/$videoId'
+    | '/streams/'
+    | '/youtube/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/youtube/$videoId' | '/youtube'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/ideas'
+    | '/streams/$streamId'
+    | '/youtube/$videoId'
+    | '/streams'
+    | '/youtube'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_authenticated/dashboard'
+    | '/_authenticated/ideas'
+    | '/_authenticated/streams/$streamId'
     | '/_authenticated/youtube/$videoId'
+    | '/_authenticated/streams/'
     | '/_authenticated/youtube/'
   fileRoutesById: FileRoutesById
 }
@@ -104,6 +150,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ideas': {
+      id: '/_authenticated/ideas'
+      path: '/ideas'
+      fullPath: '/ideas'
+      preLoaderRoute: typeof AuthenticatedIdeasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/streams/': {
+      id: '/_authenticated/streams/'
+      path: '/streams'
+      fullPath: '/streams/'
+      preLoaderRoute: typeof AuthenticatedStreamsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/streams/$streamId': {
+      id: '/_authenticated/streams/$streamId'
+      path: '/streams/$streamId'
+      fullPath: '/streams/$streamId'
+      preLoaderRoute: typeof AuthenticatedStreamsStreamIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/youtube/': {
       id: '/_authenticated/youtube/'
       path: '/youtube'
@@ -123,13 +190,19 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedIdeasRoute: typeof AuthenticatedIdeasRoute
+  AuthenticatedStreamsStreamIdRoute: typeof AuthenticatedStreamsStreamIdRoute
   AuthenticatedYoutubeVideoIdRoute: typeof AuthenticatedYoutubeVideoIdRoute
+  AuthenticatedStreamsIndexRoute: typeof AuthenticatedStreamsIndexRoute
   AuthenticatedYoutubeIndexRoute: typeof AuthenticatedYoutubeIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedIdeasRoute: AuthenticatedIdeasRoute,
+  AuthenticatedStreamsStreamIdRoute: AuthenticatedStreamsStreamIdRoute,
   AuthenticatedYoutubeVideoIdRoute: AuthenticatedYoutubeVideoIdRoute,
+  AuthenticatedStreamsIndexRoute: AuthenticatedStreamsIndexRoute,
   AuthenticatedYoutubeIndexRoute: AuthenticatedYoutubeIndexRoute,
 }
 
