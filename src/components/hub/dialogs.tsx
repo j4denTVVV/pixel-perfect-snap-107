@@ -34,7 +34,7 @@ import {
   VIDEO_STATUSES,
 } from "@/lib/hub";
 
-type Row = Record<string, any>;
+type Row = any;
 
 function Picker({
   value,
@@ -146,7 +146,10 @@ export function VideoDialog({
       description="Plan a J4denTV upload."
       saving={save.isPending}
       onSave={() => {
-        if (!String(form.working_title ?? "").trim()) return toast.error("Add a working title");
+        if (!String(form.working_title ?? "").trim()) {
+          toast.error("Add a working title");
+          return;
+        }
         save.mutate({
           id: existing?.id,
           values: {
@@ -240,7 +243,10 @@ export function StreamDialog({
       title={existing ? "Edit stream" : "Plan stream"}
       saving={save.isPending}
       onSave={() => {
-        if (!String(form.title ?? "").trim()) return toast.error("Add a stream title");
+        if (!String(form.title ?? "").trim()) {
+          toast.error("Add a stream title");
+          return;
+        }
         save.mutate({
           id: existing?.id,
           values: {
@@ -335,7 +341,10 @@ export function IdeaDialog({
       title={existing ? "Edit idea" : "Add idea"}
       saving={save.isPending}
       onSave={() => {
-        if (!String(form.title ?? "").trim()) return toast.error("Add an idea title");
+        if (!String(form.title ?? "").trim()) {
+          toast.error("Add an idea title");
+          return;
+        }
         save.mutate({
           id: existing?.id,
           values: {
@@ -419,7 +428,10 @@ export function GoalDialog({
       title={existing ? "Edit goal" : "New goal"}
       saving={save.isPending}
       onSave={() => {
-        if (!String(form.name ?? "").trim()) return toast.error("Add a goal name");
+        if (!String(form.name ?? "").trim()) {
+          toast.error("Add a goal name");
+          return;
+        }
         const current = Number(form.current_value) || 0;
         const target = Number(form.target_value) || 1;
         save.mutate({
@@ -520,7 +532,10 @@ export function AnalyticsDialog({
       title={existing ? "Edit analytics entry" : "New analytics entry"}
       saving={save.isPending}
       onSave={() => {
-        if (!form.period_start) return toast.error("Pick a start date");
+        if (!form.period_start) {
+          toast.error("Pick a start date");
+          return;
+        }
         save.mutate({
           id: existing?.id,
           values: {
