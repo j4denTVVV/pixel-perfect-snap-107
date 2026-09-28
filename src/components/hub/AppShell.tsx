@@ -79,7 +79,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 function Brand({ name }: { name: string }) {
   return (
     <div className="px-3 py-5">
-      <p className="section-title text-lg">{name}</p>
+      <p className="section-title text-shine text-lg">{name}</p>
       <p className="text-xs text-muted-foreground">Creator Hub</p>
     </div>
   );
@@ -207,7 +207,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-sidebar-border bg-sidebar px-3 py-2 lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-sidebar-border bg-sidebar px-3 py-2 backdrop-blur-xl lg:flex">
         <Brand name={creatorName} />
         <div className="flex-1 overflow-y-auto">
           <NavLinks />
@@ -218,7 +218,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-border bg-background/80 px-4 py-3 backdrop-blur sm:px-6">
+        <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-border bg-background/60 px-4 py-3 backdrop-blur sm:px-6">
           <div className="flex items-center gap-2">
             <Sheet>
               <SheetTrigger asChild>
@@ -246,7 +246,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <QuickAdd label="Quick Add" />
           </div>
         </header>
-        <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
+        <main className="animate-page mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
       </div>
     </div>
   );
