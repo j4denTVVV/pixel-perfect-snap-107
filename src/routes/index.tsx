@@ -28,12 +28,12 @@ export const Route = createFileRoute("/")({
   component: SignIn,
 });
 
+const OWNER_EMAIL = "owner.j4dentv@gmail.com";
+
 function SignIn() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -44,55 +44,33 @@ function SignIn() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
-    const action =
-      mode === "signin"
-        ? supabase.auth.signInWithPassword({ email, password })
-        : supabase.auth.signUp({ email, password });
-    const { data, error } = await action;
+    const { error } = await supabase.auth.signInWithPassword({ email: OWNER_EMAIL, password });
     setBusy(false);
-    if (error) return toast.error(error.message);
-    if (!data.session) return toast.success("Check your email to confirm the account.");
+    if (error) { toast.error("Incorrect password"); return; }
     navigate({ to: "/dashboard", replace: true });
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="panel w-full max-w-sm p-8">
+      <div className="panel w-full max-w-sm p-8 text-center">
         <p className="section-title text-2xl">J4denTV</p>
         <p className="text-sm text-muted-foreground">Creator Hub</p>
-        <p className="mt-6 text-sm text-muted-foreground">
-          {mode === "signin" ? "Sign in to your private dashboard." : "Create your account."}
-        </p>
-        <form onSubmit={submit} className="mt-6 space-y-4">
-          <Field label="Email">
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
-          </Field>
+        <p className="mt-6 text-sm text-muted-foreground">Private access</p>
+        <form onSubmit={submit} className="mt-6 space-y-4 text-left">
           <Field label="Password">
             <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              autoFocus
+              autoComplete="current-password"
             />
           </Field>
           <Button type="submit" className="w-full" disabled={busy}>
-            {mode === "signin" ? "Sign in" : "Create account"}
+            Enter
           </Button>
         </form>
-        <button
-          type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          className="mt-4 w-full text-center text-xs text-muted-foreground hover:text-foreground"
-        >
-          {mode === "signin" ? "First time? Create your account" : "Already have an account? Sign in"}
-        </button>
       </div>
     </div>
   );

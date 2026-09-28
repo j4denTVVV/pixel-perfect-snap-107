@@ -6,6 +6,7 @@ import { chipClass, daysUntil, formatNumber, percentChange, shortDate } from "@/
 import { PageHeader, ProgressRow, StatCard } from "@/components/hub/common";
 import { QuickAdd } from "@/components/hub/AppShell";
 import { CalendarBoard, type CalendarItem } from "@/components/hub/CalendarBoard";
+import { SocialsCard } from "@/components/hub/Socials";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -144,6 +145,11 @@ function Overview() {
         subtitle={`Here's what's happening with ${settings?.creator_name ?? "J4denTV"}.`}
         action={<QuickAdd />}
       />
+
+      <div className="mb-6">
+        <SocialsCard />
+      </div>
+
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
