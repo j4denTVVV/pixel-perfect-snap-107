@@ -46,7 +46,7 @@ function SignIn() {
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email: OWNER_EMAIL, password });
     setBusy(false);
-    if (error) return toast.error("Incorrect password");
+    if (error) { toast.error("Incorrect password"); return; }
     navigate({ to: "/dashboard", replace: true });
   };
 
