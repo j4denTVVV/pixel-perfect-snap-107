@@ -52,8 +52,8 @@ function SignIn() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="panel w-full max-w-sm p-8 text-center">
-        <p className="section-title text-2xl">J4denTV</p>
+      <div className="panel animate-page w-full max-w-sm p-10 text-center">
+        <p className="section-title text-shine text-4xl">J4denTV</p>
         <p className="text-sm text-muted-foreground">Creator Hub</p>
         <p className="mt-6 text-sm text-muted-foreground">Private access</p>
         <form onSubmit={submit} className="mt-6 space-y-4 text-left">
