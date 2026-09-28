@@ -98,7 +98,7 @@ export function monthKey(date: Date | string) {
 
 export function monthLabel(key: string) {
   const [y, m] = key.split("-").map(Number);
-  return new Date(y, (m ?? 1) - 1, 1).toLocaleDateString("en-GB", {
+  return new Date(y ?? 2000, (m ?? 1) - 1, 1).toLocaleDateString("en-GB", {
     month: "long",
     year: "numeric",
   });

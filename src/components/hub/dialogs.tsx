@@ -136,7 +136,7 @@ export function VideoDialog({
   const save = useSave("youtube_videos", ["youtube_videos"], "Video saved", () =>
     onOpenChange(false),
   );
-  const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k: string, v: unknown) => setForm((f: any) => ({ ...f, [k]: v }));
 
   return (
     <Shell
@@ -234,7 +234,7 @@ export function StreamDialog({
     },
   );
   const save = useSave("streams", ["streams"], "Stream added", () => onOpenChange(false));
-  const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k: string, v: unknown) => setForm((f: any) => ({ ...f, [k]: v }));
 
   return (
     <Shell
@@ -332,7 +332,7 @@ export function IdeaDialog({
     },
   );
   const save = useSave("ideas", ["ideas"], "Idea saved", () => onOpenChange(false));
-  const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k: string, v: unknown) => setForm((f: any) => ({ ...f, [k]: v }));
 
   return (
     <Shell
@@ -419,7 +419,7 @@ export function GoalDialog({
     },
   );
   const save = useSave("goals", ["goals"], "Goal saved", () => onOpenChange(false));
-  const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k: string, v: unknown) => setForm((f: any) => ({ ...f, [k]: v }));
 
   return (
     <Shell
@@ -522,7 +522,7 @@ export function AnalyticsDialog({
   const save = useSave("analytics_entries", ["analytics_entries"], "Analytics updated", () =>
     onOpenChange(false),
   );
-  const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k: string, v: unknown) => setForm((f: any) => ({ ...f, [k]: v }));
   const num = (v: unknown) => (v === "" || v === null || v === undefined ? null : Number(v));
 
   return (
