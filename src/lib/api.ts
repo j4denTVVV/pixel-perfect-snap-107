@@ -90,7 +90,7 @@ export async function saveSettings(values: Partial<Settings>): Promise<Settings>
   const user_id = await currentUserId();
   const { data, error } = await supabase
     .from("settings")
-    .update(values)
+    .update(values as never)
     .eq("user_id", user_id)
     .select()
     .single();
