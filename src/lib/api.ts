@@ -65,14 +65,7 @@ export type Settings = {
   target_streams: number;
   target_shorts: number;
   target_followers: number;
-  socials: {
-    x: string;
-    tiktok: string;
-    twitch: string;
-    discord: string;
-    youtube: string;
-    instagram: string;
-  };
+  socials: unknown;
 };
 
 export async function fetchSettings(): Promise<Settings> {
