@@ -13,10 +13,18 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as HqRouteImport } from './routes/hq'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
+import { Route as AuthenticatedChallengesRouteImport } from './routes/_authenticated/challenges'
+import { Route as AuthenticatedCollabsRouteImport } from './routes/_authenticated/collabs'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
 import { Route as AuthenticatedGoalsRouteImport } from './routes/_authenticated/goals'
 import { Route as AuthenticatedIdeasRouteImport } from './routes/_authenticated/ideas'
+import { Route as AuthenticatedIrlRouteImport } from './routes/_authenticated/irl'
+import { Route as AuthenticatedMarathonsRouteImport } from './routes/_authenticated/marathons'
+import { Route as AuthenticatedOverlaysRouteImport } from './routes/_authenticated/overlays'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedSubathonsRouteImport } from './routes/_authenticated/subathons'
 import { Route as AuthenticatedStreamsIndexRouteImport } from './routes/_authenticated/streams.index'
 import { Route as AuthenticatedStreamsStreamIdRouteImport } from './routes/_authenticated/streams.$streamId'
 import { Route as AuthenticatedYoutubeIndexRouteImport } from './routes/_authenticated/youtube.index'
@@ -41,9 +49,29 @@ const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCalendarRoute = AuthenticatedCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedChallengesRoute = AuthenticatedChallengesRouteImport.update({
+  id: '/challenges',
+  path: '/challenges',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCollabsRoute = AuthenticatedCollabsRouteImport.update({
+  id: '/collabs',
+  path: '/collabs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEquipmentRoute = AuthenticatedEquipmentRouteImport.update({
+  id: '/equipment',
+  path: '/equipment',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedGoalsRoute = AuthenticatedGoalsRouteImport.update({
@@ -56,9 +84,29 @@ const AuthenticatedIdeasRoute = AuthenticatedIdeasRouteImport.update({
   path: '/ideas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedIrlRoute = AuthenticatedIrlRouteImport.update({
+  id: '/irl',
+  path: '/irl',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMarathonsRoute = AuthenticatedMarathonsRouteImport.update({
+  id: '/marathons',
+  path: '/marathons',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOverlaysRoute = AuthenticatedOverlaysRouteImport.update({
+  id: '/overlays',
+  path: '/overlays',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSubathonsRoute = AuthenticatedSubathonsRouteImport.update({
+  id: '/subathons',
+  path: '/subathons',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedStreamsIndexRoute =
@@ -90,10 +138,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/hq': typeof HqRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/calendar': typeof AuthenticatedCalendarRoute
+  '/challenges': typeof AuthenticatedChallengesRoute
+  '/collabs': typeof AuthenticatedCollabsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/equipment': typeof AuthenticatedEquipmentRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/ideas': typeof AuthenticatedIdeasRoute
+  '/irl': typeof AuthenticatedIrlRoute
+  '/marathons': typeof AuthenticatedMarathonsRoute
+  '/overlays': typeof AuthenticatedOverlaysRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/subathons': typeof AuthenticatedSubathonsRoute
   '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
   '/streams/': typeof AuthenticatedStreamsIndexRoute
@@ -103,10 +159,18 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hq': typeof HqRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/calendar': typeof AuthenticatedCalendarRoute
+  '/challenges': typeof AuthenticatedChallengesRoute
+  '/collabs': typeof AuthenticatedCollabsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/equipment': typeof AuthenticatedEquipmentRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/ideas': typeof AuthenticatedIdeasRoute
+  '/irl': typeof AuthenticatedIrlRoute
+  '/marathons': typeof AuthenticatedMarathonsRoute
+  '/overlays': typeof AuthenticatedOverlaysRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/subathons': typeof AuthenticatedSubathonsRoute
   '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
   '/streams': typeof AuthenticatedStreamsIndexRoute
@@ -118,10 +182,18 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/hq': typeof HqRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/calendar': typeof AuthenticatedCalendarRoute
+  '/_authenticated/challenges': typeof AuthenticatedChallengesRoute
+  '/_authenticated/collabs': typeof AuthenticatedCollabsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
   '/_authenticated/goals': typeof AuthenticatedGoalsRoute
   '/_authenticated/ideas': typeof AuthenticatedIdeasRoute
+  '/_authenticated/irl': typeof AuthenticatedIrlRoute
+  '/_authenticated/marathons': typeof AuthenticatedMarathonsRoute
+  '/_authenticated/overlays': typeof AuthenticatedOverlaysRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/subathons': typeof AuthenticatedSubathonsRoute
   '/_authenticated/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/_authenticated/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
   '/_authenticated/streams/': typeof AuthenticatedStreamsIndexRoute
@@ -133,10 +205,18 @@ export interface FileRouteTypes {
     | '/'
     | '/hq'
     | '/analytics'
+    | '/calendar'
+    | '/challenges'
+    | '/collabs'
     | '/dashboard'
+    | '/equipment'
     | '/goals'
     | '/ideas'
+    | '/irl'
+    | '/marathons'
+    | '/overlays'
     | '/settings'
+    | '/subathons'
     | '/streams/$streamId'
     | '/youtube/$videoId'
     | '/streams/'
@@ -146,10 +226,18 @@ export interface FileRouteTypes {
     | '/'
     | '/hq'
     | '/analytics'
+    | '/calendar'
+    | '/challenges'
+    | '/collabs'
     | '/dashboard'
+    | '/equipment'
     | '/goals'
     | '/ideas'
+    | '/irl'
+    | '/marathons'
+    | '/overlays'
     | '/settings'
+    | '/subathons'
     | '/streams/$streamId'
     | '/youtube/$videoId'
     | '/streams'
@@ -160,10 +248,18 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/hq'
     | '/_authenticated/analytics'
+    | '/_authenticated/calendar'
+    | '/_authenticated/challenges'
+    | '/_authenticated/collabs'
     | '/_authenticated/dashboard'
+    | '/_authenticated/equipment'
     | '/_authenticated/goals'
     | '/_authenticated/ideas'
+    | '/_authenticated/irl'
+    | '/_authenticated/marathons'
+    | '/_authenticated/overlays'
     | '/_authenticated/settings'
+    | '/_authenticated/subathons'
     | '/_authenticated/streams/$streamId'
     | '/_authenticated/youtube/$videoId'
     | '/_authenticated/streams/'
@@ -206,11 +302,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/calendar': {
+      id: '/_authenticated/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AuthenticatedCalendarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/challenges': {
+      id: '/_authenticated/challenges'
+      path: '/challenges'
+      fullPath: '/challenges'
+      preLoaderRoute: typeof AuthenticatedChallengesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/collabs': {
+      id: '/_authenticated/collabs'
+      path: '/collabs'
+      fullPath: '/collabs'
+      preLoaderRoute: typeof AuthenticatedCollabsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/equipment': {
+      id: '/_authenticated/equipment'
+      path: '/equipment'
+      fullPath: '/equipment'
+      preLoaderRoute: typeof AuthenticatedEquipmentRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/goals': {
@@ -227,11 +351,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIdeasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/irl': {
+      id: '/_authenticated/irl'
+      path: '/irl'
+      fullPath: '/irl'
+      preLoaderRoute: typeof AuthenticatedIrlRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/marathons': {
+      id: '/_authenticated/marathons'
+      path: '/marathons'
+      fullPath: '/marathons'
+      preLoaderRoute: typeof AuthenticatedMarathonsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/overlays': {
+      id: '/_authenticated/overlays'
+      path: '/overlays'
+      fullPath: '/overlays'
+      preLoaderRoute: typeof AuthenticatedOverlaysRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/subathons': {
+      id: '/_authenticated/subathons'
+      path: '/subathons'
+      fullPath: '/subathons'
+      preLoaderRoute: typeof AuthenticatedSubathonsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/streams/': {
@@ -267,10 +419,18 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedCalendarRoute: typeof AuthenticatedCalendarRoute
+  AuthenticatedChallengesRoute: typeof AuthenticatedChallengesRoute
+  AuthenticatedCollabsRoute: typeof AuthenticatedCollabsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
   AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
   AuthenticatedIdeasRoute: typeof AuthenticatedIdeasRoute
+  AuthenticatedIrlRoute: typeof AuthenticatedIrlRoute
+  AuthenticatedMarathonsRoute: typeof AuthenticatedMarathonsRoute
+  AuthenticatedOverlaysRoute: typeof AuthenticatedOverlaysRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSubathonsRoute: typeof AuthenticatedSubathonsRoute
   AuthenticatedStreamsStreamIdRoute: typeof AuthenticatedStreamsStreamIdRoute
   AuthenticatedYoutubeVideoIdRoute: typeof AuthenticatedYoutubeVideoIdRoute
   AuthenticatedStreamsIndexRoute: typeof AuthenticatedStreamsIndexRoute
@@ -279,10 +439,18 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedCalendarRoute: AuthenticatedCalendarRoute,
+  AuthenticatedChallengesRoute: AuthenticatedChallengesRoute,
+  AuthenticatedCollabsRoute: AuthenticatedCollabsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
   AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
   AuthenticatedIdeasRoute: AuthenticatedIdeasRoute,
+  AuthenticatedIrlRoute: AuthenticatedIrlRoute,
+  AuthenticatedMarathonsRoute: AuthenticatedMarathonsRoute,
+  AuthenticatedOverlaysRoute: AuthenticatedOverlaysRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSubathonsRoute: AuthenticatedSubathonsRoute,
   AuthenticatedStreamsStreamIdRoute: AuthenticatedStreamsStreamIdRoute,
   AuthenticatedYoutubeVideoIdRoute: AuthenticatedYoutubeVideoIdRoute,
   AuthenticatedStreamsIndexRoute: AuthenticatedStreamsIndexRoute,

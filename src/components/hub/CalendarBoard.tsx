@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export type CalendarItem = {
   date: string;
   label: string;
-  kind: "upload" | "record" | "stream" | "goal";
+  kind: "upload" | "record" | "stream" | "goal" | "event";
   onOpen?: () => void;
 };
 
@@ -15,6 +15,7 @@ const ICON: Record<CalendarItem["kind"], string> = {
   record: "🎥",
   stream: "🔴",
   goal: "🎯",
+  event: "⭐",
 };
 
 export function CalendarBoard({ items }: { items: CalendarItem[] }) {
