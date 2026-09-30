@@ -53,7 +53,7 @@ export const KIND_CONFIG: Record<
 const empty = (kind: HubKind): Omit<HubItem, "id"> => ({
   kind,
   title: "",
-  status: KIND_CONFIG[kind].statuses[0],
+  status: KIND_CONFIG[kind].statuses[0] ?? "Idea",
   start_date: null,
   end_date: null,
   platform: null,
