@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Lock } from "lucide-react";
-import profileAsset from "@/assets/j4dentv-profile.png.asset.json";
+import profileAsset from "@/assets/j4dentv-pfp.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
