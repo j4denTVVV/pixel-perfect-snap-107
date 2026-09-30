@@ -95,7 +95,7 @@ export function HubItemsPage({ kind }: { kind: HubKind }) {
         ))}
       </div>
       {shown.length === 0 ? (
-        <EmptyState title={`No ${cfg.title.toLowerCase()} yet`} description={`Add your first ${cfg.singular} to start planning.`} />
+        <EmptyState title={`No ${cfg.title.toLowerCase()} yet`} />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {shown.map((i) => {
