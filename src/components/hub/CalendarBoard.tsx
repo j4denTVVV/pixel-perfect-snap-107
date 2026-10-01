@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -19,8 +18,6 @@ const ICON: Record<CalendarItem["kind"], string> = {
 };
 
 export function CalendarBoard({ items }: { items: CalendarItem[] }) {
-  const navigate = useNavigate();
-  void navigate;
   const [cursor, setCursor] = useState(() => {
     const d = new Date();
     return new Date(d.getFullYear(), d.getMonth(), 1);
@@ -82,7 +79,7 @@ export function CalendarBoard({ items }: { items: CalendarItem[] }) {
           return (
             <div
               key={key}
-              className={`min-h-20 rounded-lg border p-1.5 text-left text-xs ${
+               className={`min-h-20 rounded-md border p-1.5 text-left text-xs ${
                 day ? "border-border bg-surface" : "border-transparent"
               } ${key === today ? "ring-1 ring-primary" : ""}`}
             >
@@ -93,7 +90,7 @@ export function CalendarBoard({ items }: { items: CalendarItem[] }) {
                     key={`${key}-${idx}`}
                     type="button"
                     onClick={item.onOpen}
-                    className="block w-full truncate rounded bg-accent/60 px-1 py-0.5 text-left text-[0.68rem] hover:bg-accent"
+                     className="block w-full truncate rounded-sm border-l border-primary bg-accent/60 px-1 py-0.5 text-left text-[0.68rem] hover:bg-accent"
                     title={item.label}
                   >
                     {ICON[item.kind]} {item.label}
