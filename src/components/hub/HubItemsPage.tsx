@@ -101,7 +101,7 @@ export function HubItemsPage({ kind }: { kind: HubKind }) {
           {shown.map((i) => {
             const done = (i.checklist ?? []).filter((c) => c.done).length;
             return (
-              <button key={i.id} onClick={() => setEditing(i)} className="panel panel-hover p-5 text-left">
+              <Button key={i.id} variant="ghost" onClick={() => setEditing(i)} className="panel panel-hover h-auto whitespace-normal p-5 text-left">
                 <div className="flex items-start justify-between gap-2">
                   <p className="font-medium">{i.title}</p>
                   <span className={chipClass(i.status)}>{i.status}</span>
@@ -123,7 +123,7 @@ export function HubItemsPage({ kind }: { kind: HubKind }) {
                     Checklist {done}/{i.checklist.length}
                   </p>
                 ) : null}
-              </button>
+              </Button>
             );
           })}
         </div>
@@ -167,7 +167,10 @@ function ItemDialog({
     onError: (e: Error) => toast.error(e.message),
   });
   const remove = useMutation({
-    mutationFn: () => deleteRow("hub_items", form.id!),
+    mutationFn: () => {
+      if (!form.id) throw new Error("This item has not been saved yet.");
+      return deleteRow("hub_items", form.id);
+    },
     onSuccess: () => {
       toast.success("Deleted");
       onSaved();

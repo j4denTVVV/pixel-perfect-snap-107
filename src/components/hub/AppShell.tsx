@@ -3,15 +3,23 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BarChart3,
+  CalendarDays,
+  Clapperboard,
+  Clock3,
+  Handshake,
+  Headphones,
   Home,
   Lightbulb,
   LogOut,
+  MapPin,
   Menu,
+  MonitorUp,
   Plus,
   Radio,
   Search,
   Settings as SettingsIcon,
   Target,
+  Trophy,
   Video,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -41,46 +49,81 @@ import {
 } from "@/components/hub/dialogs";
 
 const NAV = [
-  { to: "/dashboard", label: "Overview", icon: Home },
-  { to: "/youtube", label: "YouTube Planner", icon: Video },
-  { to: "/streams", label: "Stream Planner", icon: Radio },
-  { to: "/ideas", label: "Ideas", icon: Lightbulb },
-  { to: "/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/goals", label: "Goals", icon: Target },
-  { to: "/settings", label: "Settings", icon: SettingsIcon },
+  {
+    label: "Plan",
+    items: [
+      { to: "/dashboard", label: "Overview", icon: Home },
+      { to: "/calendar", label: "Calendar", icon: CalendarDays },
+      { to: "/youtube", label: "YouTube", icon: Video },
+      { to: "/streams", label: "Streams", icon: Radio },
+      { to: "/ideas", label: "Ideas", icon: Lightbulb },
+    ],
+  },
+  {
+    label: "Productions",
+    items: [
+      { to: "/challenges", label: "Challenges", icon: Trophy },
+      { to: "/marathons", label: "Marathons", icon: Clock3 },
+      { to: "/subathons", label: "Subathons", icon: Headphones },
+      { to: "/collabs", label: "Collabs", icon: Handshake },
+      { to: "/irl", label: "IRLs", icon: MapPin },
+      { to: "/overlays", label: "Overlays", icon: MonitorUp },
+      { to: "/equipment", label: "Equipment", icon: Clapperboard },
+    ],
+  },
+  {
+    label: "Track",
+    items: [
+      { to: "/analytics", label: "Analytics", icon: BarChart3 },
+      { to: "/goals", label: "Goals", icon: Target },
+      { to: "/settings", label: "Settings", icon: SettingsIcon },
+    ],
+  },
 ] as const;
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <nav className="space-y-1">
-      {NAV.map(({ to, label, icon: Icon }) => {
-        const active = pathname === to || pathname.startsWith(`${to}/`);
-        return (
-          <Link
-            key={to}
-            to={to}
-            onClick={onNavigate}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-              active
-                ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
-                : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-            }`}
-          >
-            <Icon className={`size-4 ${active ? "text-primary" : ""}`} />
-            {label}
-          </Link>
-        );
-      })}
+    <nav className="space-y-6">
+      {NAV.map((group) => (
+        <div key={group.label}>
+          <p className="mb-2 px-3 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-sidebar-muted">
+            {group.label}
+          </p>
+          <div className="space-y-0.5">
+            {group.items.map(({ to, label, icon: Icon }) => {
+              const active = pathname === to || pathname.startsWith(`${to}/`);
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={onNavigate}
+                  className={`group flex items-center gap-3 border-l px-3 py-2 text-sm transition-all ${
+                    active
+                      ? "border-primary bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                      : "border-transparent text-muted-foreground hover:border-sidebar-border hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+                  }`}
+                >
+                  <Icon className={`size-4 ${active ? "text-primary" : "group-hover:text-primary"}`} />
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </nav>
   );
 }
 
 function Brand({ name }: { name: string }) {
   return (
-    <div className="px-3 py-5">
-      <p className="section-title text-shine text-lg">{name}</p>
-      <p className="text-xs text-muted-foreground">Creator Hub</p>
+    <div className="border-b border-sidebar-border px-3 pb-5 pt-4">
+      <p className="section-title text-shine text-2xl">{name}</p>
+      <div className="mt-1 flex items-center gap-2">
+        <span className="h-px w-5 bg-primary/60" />
+        <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-sidebar-muted">4TV Creator HQ</p>
+      </div>
     </div>
   );
 }
@@ -195,6 +238,7 @@ function GlobalSearch() {
 export function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { data: settings } = useQuery({ queryKey: ["settings"], queryFn: fetchSettings });
   const creatorName = settings?.creator_name ?? "J4denTV";
 
@@ -206,40 +250,40 @@ export function AppShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-sidebar-border bg-sidebar px-3 py-2 backdrop-blur-xl lg:flex">
+    <div className="hub-shell min-h-screen bg-background">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-sidebar-border bg-sidebar px-3 py-2 lg:flex">
         <Brand name={creatorName} />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto py-6">
           <NavLinks />
         </div>
-        <Button variant="ghost" className="justify-start text-muted-foreground" onClick={signOut}>
-          <LogOut className="size-4" /> Sign out
+        <Button variant="ghost" className="justify-start border-t border-sidebar-border text-muted-foreground" onClick={signOut}>
+          <LogOut className="size-4" /> Lock Hub
         </Button>
       </aside>
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-border bg-background/60 px-4 py-3 backdrop-blur sm:px-6">
+        <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-border bg-background/85 px-4 py-3 backdrop-blur-xl sm:px-6">
           <div className="flex items-center gap-2">
-            <Sheet>
+            <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="lg:hidden">
                   <Menu className="size-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-72 bg-sidebar p-3">
+              <SheetContent side="left" className="w-72 overflow-y-auto border-sidebar-border bg-sidebar p-3">
                 <SheetTitle className="sr-only">Navigation</SheetTitle>
                 <Brand name={creatorName} />
-                <NavLinks />
+                <div className="py-6"><NavLinks onNavigate={() => setMobileNavOpen(false)} /></div>
                 <Button
                   variant="ghost"
                   className="mt-4 w-full justify-start text-muted-foreground"
                   onClick={signOut}
                 >
-                  <LogOut className="size-4" /> Sign out
+                  <LogOut className="size-4" /> Lock Hub
                 </Button>
               </SheetContent>
             </Sheet>
-            <span className="section-title text-sm lg:hidden">{creatorName}</span>
+            <span className="section-title text-lg lg:hidden">{creatorName}</span>
           </div>
           <div className="flex items-center gap-2">
             <GlobalSearch />
