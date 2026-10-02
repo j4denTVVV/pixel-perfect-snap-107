@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as HqRouteImport } from './routes/hq'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedAssetsRouteImport } from './routes/_authenticated/assets'
 import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
 import { Route as AuthenticatedChallengesRouteImport } from './routes/_authenticated/challenges'
 import { Route as AuthenticatedCollabsRouteImport } from './routes/_authenticated/collabs'
@@ -21,6 +22,7 @@ import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authentica
 import { Route as AuthenticatedGoalsRouteImport } from './routes/_authenticated/goals'
 import { Route as AuthenticatedIdeasRouteImport } from './routes/_authenticated/ideas'
 import { Route as AuthenticatedIrlRouteImport } from './routes/_authenticated/irl'
+import { Route as AuthenticatedLiveRouteImport } from './routes/_authenticated/live'
 import { Route as AuthenticatedMarathonsRouteImport } from './routes/_authenticated/marathons'
 import { Route as AuthenticatedOverlaysRouteImport } from './routes/_authenticated/overlays'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -47,6 +49,11 @@ const HqRoute = HqRouteImport.update({
 const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAssetsRoute = AuthenticatedAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCalendarRoute = AuthenticatedCalendarRouteImport.update({
@@ -87,6 +94,11 @@ const AuthenticatedIdeasRoute = AuthenticatedIdeasRouteImport.update({
 const AuthenticatedIrlRoute = AuthenticatedIrlRouteImport.update({
   id: '/irl',
   path: '/irl',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLiveRoute = AuthenticatedLiveRouteImport.update({
+  id: '/live',
+  path: '/live',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMarathonsRoute = AuthenticatedMarathonsRouteImport.update({
@@ -138,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/hq': typeof HqRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/assets': typeof AuthenticatedAssetsRoute
   '/calendar': typeof AuthenticatedCalendarRoute
   '/challenges': typeof AuthenticatedChallengesRoute
   '/collabs': typeof AuthenticatedCollabsRoute
@@ -146,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/goals': typeof AuthenticatedGoalsRoute
   '/ideas': typeof AuthenticatedIdeasRoute
   '/irl': typeof AuthenticatedIrlRoute
+  '/live': typeof AuthenticatedLiveRoute
   '/marathons': typeof AuthenticatedMarathonsRoute
   '/overlays': typeof AuthenticatedOverlaysRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -159,6 +173,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hq': typeof HqRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/assets': typeof AuthenticatedAssetsRoute
   '/calendar': typeof AuthenticatedCalendarRoute
   '/challenges': typeof AuthenticatedChallengesRoute
   '/collabs': typeof AuthenticatedCollabsRoute
@@ -167,6 +182,7 @@ export interface FileRoutesByTo {
   '/goals': typeof AuthenticatedGoalsRoute
   '/ideas': typeof AuthenticatedIdeasRoute
   '/irl': typeof AuthenticatedIrlRoute
+  '/live': typeof AuthenticatedLiveRoute
   '/marathons': typeof AuthenticatedMarathonsRoute
   '/overlays': typeof AuthenticatedOverlaysRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -182,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/hq': typeof HqRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/assets': typeof AuthenticatedAssetsRoute
   '/_authenticated/calendar': typeof AuthenticatedCalendarRoute
   '/_authenticated/challenges': typeof AuthenticatedChallengesRoute
   '/_authenticated/collabs': typeof AuthenticatedCollabsRoute
@@ -190,6 +207,7 @@ export interface FileRoutesById {
   '/_authenticated/goals': typeof AuthenticatedGoalsRoute
   '/_authenticated/ideas': typeof AuthenticatedIdeasRoute
   '/_authenticated/irl': typeof AuthenticatedIrlRoute
+  '/_authenticated/live': typeof AuthenticatedLiveRoute
   '/_authenticated/marathons': typeof AuthenticatedMarathonsRoute
   '/_authenticated/overlays': typeof AuthenticatedOverlaysRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -205,6 +223,7 @@ export interface FileRouteTypes {
     | '/'
     | '/hq'
     | '/analytics'
+    | '/assets'
     | '/calendar'
     | '/challenges'
     | '/collabs'
@@ -213,6 +232,7 @@ export interface FileRouteTypes {
     | '/goals'
     | '/ideas'
     | '/irl'
+    | '/live'
     | '/marathons'
     | '/overlays'
     | '/settings'
@@ -226,6 +246,7 @@ export interface FileRouteTypes {
     | '/'
     | '/hq'
     | '/analytics'
+    | '/assets'
     | '/calendar'
     | '/challenges'
     | '/collabs'
@@ -234,6 +255,7 @@ export interface FileRouteTypes {
     | '/goals'
     | '/ideas'
     | '/irl'
+    | '/live'
     | '/marathons'
     | '/overlays'
     | '/settings'
@@ -248,6 +270,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/hq'
     | '/_authenticated/analytics'
+    | '/_authenticated/assets'
     | '/_authenticated/calendar'
     | '/_authenticated/challenges'
     | '/_authenticated/collabs'
@@ -256,6 +279,7 @@ export interface FileRouteTypes {
     | '/_authenticated/goals'
     | '/_authenticated/ideas'
     | '/_authenticated/irl'
+    | '/_authenticated/live'
     | '/_authenticated/marathons'
     | '/_authenticated/overlays'
     | '/_authenticated/settings'
@@ -300,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/analytics'
       fullPath: '/analytics'
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/assets': {
+      id: '/_authenticated/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof AuthenticatedAssetsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/calendar': {
@@ -356,6 +387,13 @@ declare module '@tanstack/react-router' {
       path: '/irl'
       fullPath: '/irl'
       preLoaderRoute: typeof AuthenticatedIrlRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/live': {
+      id: '/_authenticated/live'
+      path: '/live'
+      fullPath: '/live'
+      preLoaderRoute: typeof AuthenticatedLiveRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/marathons': {
@@ -419,6 +457,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedAssetsRoute: typeof AuthenticatedAssetsRoute
   AuthenticatedCalendarRoute: typeof AuthenticatedCalendarRoute
   AuthenticatedChallengesRoute: typeof AuthenticatedChallengesRoute
   AuthenticatedCollabsRoute: typeof AuthenticatedCollabsRoute
@@ -427,6 +466,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
   AuthenticatedIdeasRoute: typeof AuthenticatedIdeasRoute
   AuthenticatedIrlRoute: typeof AuthenticatedIrlRoute
+  AuthenticatedLiveRoute: typeof AuthenticatedLiveRoute
   AuthenticatedMarathonsRoute: typeof AuthenticatedMarathonsRoute
   AuthenticatedOverlaysRoute: typeof AuthenticatedOverlaysRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -439,6 +479,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedAssetsRoute: AuthenticatedAssetsRoute,
   AuthenticatedCalendarRoute: AuthenticatedCalendarRoute,
   AuthenticatedChallengesRoute: AuthenticatedChallengesRoute,
   AuthenticatedCollabsRoute: AuthenticatedCollabsRoute,
@@ -447,6 +488,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
   AuthenticatedIdeasRoute: AuthenticatedIdeasRoute,
   AuthenticatedIrlRoute: AuthenticatedIrlRoute,
+  AuthenticatedLiveRoute: AuthenticatedLiveRoute,
   AuthenticatedMarathonsRoute: AuthenticatedMarathonsRoute,
   AuthenticatedOverlaysRoute: AuthenticatedOverlaysRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
