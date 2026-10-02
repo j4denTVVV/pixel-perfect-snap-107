@@ -18,7 +18,7 @@ const LIVE_KINDS: HubKind[] = ["challenge", "marathon", "subathon", "irl"];
 
 export const Route = createFileRoute("/_authenticated/live")({
   validateSearch: (s: Record<string, unknown>): { tab?: Tab } =>
-    TABS.includes(s.tab as Tab) ? { tab: s.tab as Tab } : {},
+    TABS.includes(s["tab"] as Tab) ? { tab: s["tab"] as Tab } : {},
   head: () => ({
     meta: [
       { title: "Live Planner — J4DENTV Creator HQ" },
@@ -31,11 +31,11 @@ export const Route = createFileRoute("/_authenticated/live")({
 
 function detailFor(h: HubItem) {
   const d = h.details ?? {};
-  if (h.kind === "subathon" && d.max_duration) return `Max ${d.max_duration}`;
+  if (h.kind === "subathon" && d["max_duration"]) return `Max ${d["max_duration"]}`;
   if (h.kind === "marathon") {
-    const segs = (d.segments ?? "").split("\n").filter(Boolean).length;
+    const segs = (d["segments"] ?? "").split("\n").filter(Boolean).length;
     if (segs) return `${segs} segment${segs === 1 ? "" : "s"}`;
-    if (d.duration) return d.duration;
+    if (d["duration"]) return d["duration"];
   }
   if (h.kind === "irl" && h.location) return h.location;
   if (h.checklist?.length) return `Checklist ${h.checklist.filter((c) => c.done).length}/${h.checklist.length}`;

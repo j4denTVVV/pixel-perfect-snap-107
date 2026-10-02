@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Clapperboard, Clock3, Headphones, Handshake, MapPin, MonitorUp, Radio, Trophy, type LucideIcon } from "lucide-react";
 import { chipClass } from "@/lib/hub";
 
-export const TYPE_META: Record<string, { label: string; icon: LucideIcon }> = {
+type Meta = { label: string; icon: LucideIcon };
+export const TYPE_META: Record<"stream" | "challenge" | "marathon" | "subathon" | "irl" | "collab" | "overlay" | "equipment", Meta> = {
   stream: { label: "Stream", icon: Radio },
   challenge: { label: "Challenge", icon: Trophy },
   marathon: { label: "Marathon", icon: Clock3 },
@@ -37,7 +38,7 @@ export function LiveCard({
   detail?: string | null;
   onOpen: () => void;
 }) {
-  const meta = TYPE_META[type] ?? TYPE_META.stream;
+  const meta: Meta = (TYPE_META as Record<string, Meta>)[type] ?? TYPE_META.stream;
   const Icon = meta.icon;
   return (
     <motion.button
