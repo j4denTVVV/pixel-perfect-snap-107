@@ -111,7 +111,7 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="panel flex flex-col items-center justify-center gap-4 px-6 py-14 text-center">
+    <div className="card-minimal flex flex-col items-center justify-center gap-4 px-6 py-12 text-center">
       <p className="text-sm text-muted-foreground">{title}</p>
       {action}
     </div>

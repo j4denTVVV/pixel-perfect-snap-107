@@ -28,6 +28,37 @@ export type HubItem = {
   goal: string | null;
   notes: string | null;
   checklist: CheckItem[];
+  start_time?: string | null;
+  details?: Record<string, string>;
+};
+
+/** Fields shown only for a given type (stored in hub_items.details). */
+export const DETAIL_FIELDS: Partial<Record<HubKind, Array<{ key: string; label: string; long?: boolean }>>> = {
+  subathon: [
+    { key: "start_duration", label: "Starting duration" },
+    { key: "max_duration", label: "Maximum duration" },
+    { key: "timer_rule", label: "Sub timer rule" },
+    { key: "goals", label: "Goals", long: true },
+    { key: "milestones", label: "Milestones", long: true },
+    { key: "segments", label: "Segments", long: true },
+  ],
+  marathon: [
+    { key: "duration", label: "Duration" },
+    { key: "games", label: "Games", long: true },
+    { key: "segments", label: "Segments", long: true },
+    { key: "collabs", label: "Collabs" },
+    { key: "challenges", label: "Challenges" },
+    { key: "breaks", label: "Breaks" },
+    { key: "equipment", label: "Equipment" },
+  ],
+  challenge: [
+    { key: "game", label: "Game / activity" },
+    { key: "reward", label: "Reward or punishment" },
+  ],
+  irl: [
+    { key: "route", label: "Route / plan", long: true },
+    { key: "safety", label: "Safety & permissions" },
+  ],
 };
 
 export const KIND_CONFIG: Record<
@@ -62,7 +93,10 @@ const empty = (kind: HubKind): Omit<HubItem, "id"> => ({
   goal: null,
   notes: null,
   checklist: [],
+  start_time: null,
+  details: {},
 });
+export const emptyItem = empty;
 
 export function HubItemsPage({ kind }: { kind: HubKind }) {
   const cfg = KIND_CONFIG[kind];
@@ -101,7 +135,7 @@ export function HubItemsPage({ kind }: { kind: HubKind }) {
           {shown.map((i) => {
             const done = (i.checklist ?? []).filter((c) => c.done).length;
             return (
-              <Button key={i.id} variant="ghost" onClick={() => setEditing(i)} className="panel panel-hover h-auto whitespace-normal p-5 text-left">
+              <Button key={i.id} variant="ghost" onClick={() => setEditing(i)} className="card-secondary lift h-auto flex-col items-stretch whitespace-normal p-5 text-left">
                 <div className="flex items-start justify-between gap-2">
                   <p className="font-medium">{i.title}</p>
                   <span className={chipClass(i.status)}>{i.status}</span>
@@ -139,7 +173,7 @@ export function HubItemsPage({ kind }: { kind: HubKind }) {
   );
 }
 
-function ItemDialog({
+export function ItemDialog({
   value,
   onClose,
   onSaved,
@@ -156,7 +190,7 @@ function ItemDialog({
   const save = useMutation({
     mutationFn: async () => {
       const { id, ...rest } = form;
-      const values = { ...rest, checklist: rest.checklist as unknown } as Record<string, unknown>;
+      const values = { ...rest, checklist: rest.checklist as unknown, details: (rest.details ?? {}) as unknown } as Record<string, unknown>;
       return id ? updateRow("hub_items", id, values) : insertRow("hub_items", values);
     },
     onSuccess: () => {
@@ -208,6 +242,20 @@ function ItemDialog({
               </Field>
             </div>
           ) : null}
+          {cfg.fields.includes("dates") && value.kind !== "collab" ? (
+            <Field label="Start time">
+              <Input type="time" value={form.start_time ?? ""} onChange={(e) => set("start_time", e.target.value || null)} />
+            </Field>
+          ) : null}
+          {(DETAIL_FIELDS[value.kind] ?? []).map((f) => (
+            <Field key={f.key} label={f.label}>
+              {f.long ? (
+                <Textarea rows={2} value={form.details?.[f.key] ?? ""} onChange={(e) => set("details", { ...(form.details ?? {}), [f.key]: e.target.value })} />
+              ) : (
+                <Input value={form.details?.[f.key] ?? ""} onChange={(e) => set("details", { ...(form.details ?? {}), [f.key]: e.target.value })} />
+              )}
+            </Field>
+          ))}
           {cfg.fields.includes("platform") ? (
             <Field label="Platform">
               <Input value={form.platform ?? ""} onChange={(e) => set("platform", e.target.value || null)} placeholder="Twitch, YouTube, TikTok…" />

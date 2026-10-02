@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { HubItemsPage } from "@/components/hub/HubItemsPage";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/subathons")({
-  head: () => ({ meta: [{ title: "Subathons — J4DENTV Creator HQ" }, { name: "robots", content: "noindex" }] }),
-  component: () => <HubItemsPage kind="subathon" />,
+  beforeLoad: () => {
+    throw redirect({ to: "/live", search: { tab: "subathon" } });
+  },
 });
