@@ -6,7 +6,7 @@ type Tab = "overlay" | "equipment";
 
 export const Route = createFileRoute("/_authenticated/assets")({
   validateSearch: (s: Record<string, unknown>): { tab?: Tab } =>
-    s.tab === "equipment" || s.tab === "overlay" ? { tab: s.tab } : {},
+    s["tab"] === "equipment" || s["tab"] === "overlay" ? { tab: s["tab"] } : {},
   head: () => ({
     meta: [
       { title: "Assets — J4DENTV Creator HQ" },
