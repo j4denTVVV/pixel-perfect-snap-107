@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { HubItemsPage } from "@/components/hub/HubItemsPage";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/overlays")({
-  head: () => ({ meta: [{ title: "Overlays — J4DENTV Creator HQ" }, { name: "robots", content: "noindex" }] }),
-  component: () => <HubItemsPage kind="overlay" />,
+  beforeLoad: () => {
+    throw redirect({ to: "/assets", search: { tab: "overlay" } });
+  },
 });

@@ -135,7 +135,7 @@ export function HubItemsPage({ kind }: { kind: HubKind }) {
           {shown.map((i) => {
             const done = (i.checklist ?? []).filter((c) => c.done).length;
             return (
-              <Button key={i.id} variant="ghost" onClick={() => setEditing(i)} className="panel panel-hover h-auto whitespace-normal p-5 text-left">
+              <Button key={i.id} variant="ghost" onClick={() => setEditing(i)} className="card-secondary lift h-auto flex-col items-stretch whitespace-normal p-5 text-left">
                 <div className="flex items-start justify-between gap-2">
                   <p className="font-medium">{i.title}</p>
                   <span className={chipClass(i.status)}>{i.status}</span>
