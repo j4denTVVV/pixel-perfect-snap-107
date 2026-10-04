@@ -27,6 +27,7 @@ import { Route as AuthenticatedMarathonsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedOverlaysRouteImport } from './routes/_authenticated/overlays'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedSubathonsRouteImport } from './routes/_authenticated/subathons'
+import { Route as AuthenticatedToolsRouteImport } from './routes/_authenticated/tools'
 import { Route as AuthenticatedStreamsIndexRouteImport } from './routes/_authenticated/streams.index'
 import { Route as AuthenticatedStreamsStreamIdRouteImport } from './routes/_authenticated/streams.$streamId'
 import { Route as AuthenticatedYoutubeIndexRouteImport } from './routes/_authenticated/youtube.index'
@@ -121,6 +122,11 @@ const AuthenticatedSubathonsRoute = AuthenticatedSubathonsRouteImport.update({
   path: '/subathons',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedToolsRoute = AuthenticatedToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedStreamsIndexRoute =
   AuthenticatedStreamsIndexRouteImport.update({
     id: '/streams/',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/overlays': typeof AuthenticatedOverlaysRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/subathons': typeof AuthenticatedSubathonsRoute
+  '/tools': typeof AuthenticatedToolsRoute
   '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
   '/streams/': typeof AuthenticatedStreamsIndexRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/overlays': typeof AuthenticatedOverlaysRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/subathons': typeof AuthenticatedSubathonsRoute
+  '/tools': typeof AuthenticatedToolsRoute
   '/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
   '/streams': typeof AuthenticatedStreamsIndexRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/_authenticated/overlays': typeof AuthenticatedOverlaysRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/subathons': typeof AuthenticatedSubathonsRoute
+  '/_authenticated/tools': typeof AuthenticatedToolsRoute
   '/_authenticated/streams/$streamId': typeof AuthenticatedStreamsStreamIdRoute
   '/_authenticated/youtube/$videoId': typeof AuthenticatedYoutubeVideoIdRoute
   '/_authenticated/streams/': typeof AuthenticatedStreamsIndexRoute
@@ -237,6 +246,7 @@ export interface FileRouteTypes {
     | '/overlays'
     | '/settings'
     | '/subathons'
+    | '/tools'
     | '/streams/$streamId'
     | '/youtube/$videoId'
     | '/streams/'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/overlays'
     | '/settings'
     | '/subathons'
+    | '/tools'
     | '/streams/$streamId'
     | '/youtube/$videoId'
     | '/streams'
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/_authenticated/overlays'
     | '/_authenticated/settings'
     | '/_authenticated/subathons'
+    | '/_authenticated/tools'
     | '/_authenticated/streams/$streamId'
     | '/_authenticated/youtube/$videoId'
     | '/_authenticated/streams/'
@@ -424,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSubathonsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tools': {
+      id: '/_authenticated/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof AuthenticatedToolsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/streams/': {
       id: '/_authenticated/streams/'
       path: '/streams'
@@ -471,6 +490,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOverlaysRoute: typeof AuthenticatedOverlaysRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSubathonsRoute: typeof AuthenticatedSubathonsRoute
+  AuthenticatedToolsRoute: typeof AuthenticatedToolsRoute
   AuthenticatedStreamsStreamIdRoute: typeof AuthenticatedStreamsStreamIdRoute
   AuthenticatedYoutubeVideoIdRoute: typeof AuthenticatedYoutubeVideoIdRoute
   AuthenticatedStreamsIndexRoute: typeof AuthenticatedStreamsIndexRoute
@@ -493,6 +513,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOverlaysRoute: AuthenticatedOverlaysRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSubathonsRoute: AuthenticatedSubathonsRoute,
+  AuthenticatedToolsRoute: AuthenticatedToolsRoute,
   AuthenticatedStreamsStreamIdRoute: AuthenticatedStreamsStreamIdRoute,
   AuthenticatedYoutubeVideoIdRoute: AuthenticatedYoutubeVideoIdRoute,
   AuthenticatedStreamsIndexRoute: AuthenticatedStreamsIndexRoute,
