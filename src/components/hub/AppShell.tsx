@@ -26,12 +26,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -40,6 +34,9 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { fetchAll, fetchSettings } from "@/lib/api";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ItemDialog, emptyItem } from "@/components/hub/HubItemsPage";
+import { ProfileAvatar } from "@/components/hub/studio";
 import {
   AnalyticsDialog,
   GoalDialog,
@@ -49,63 +46,63 @@ import {
 } from "@/components/hub/dialogs";
 
 const NAV = [
+  { label: "", items: [{ to: "/dashboard", label: "Overview", icon: Home, search: undefined }] },
   {
     label: "Plan",
     items: [
-      { to: "/dashboard", label: "Overview", icon: Home },
-      { to: "/calendar", label: "Calendar", icon: CalendarDays },
-      { to: "/youtube", label: "YouTube", icon: Video },
-      { to: "/streams", label: "Streams", icon: Radio },
-      { to: "/ideas", label: "Ideas", icon: Lightbulb },
-    ],
-  },
-  {
-    label: "Productions",
-    items: [
-      { to: "/challenges", label: "Challenges", icon: Trophy },
-      { to: "/marathons", label: "Marathons", icon: Clock3 },
-      { to: "/subathons", label: "Subathons", icon: Headphones },
-      { to: "/collabs", label: "Collabs", icon: Handshake },
-      { to: "/irl", label: "IRLs", icon: MapPin },
-      { to: "/overlays", label: "Overlays", icon: MonitorUp },
-      { to: "/equipment", label: "Equipment", icon: Clapperboard },
+      { to: "/live", label: "Live Planner", icon: Radio, search: undefined },
+      { to: "/youtube", label: "YouTube", icon: Video, search: undefined },
+      { to: "/collabs", label: "Collabs", icon: Handshake, search: undefined },
+      { to: "/ideas", label: "Ideas", icon: Lightbulb, search: undefined },
     ],
   },
   {
     label: "Track",
     items: [
-      { to: "/analytics", label: "Analytics", icon: BarChart3 },
-      { to: "/goals", label: "Goals", icon: Target },
-      { to: "/settings", label: "Settings", icon: SettingsIcon },
+      { to: "/analytics", label: "Analytics", icon: BarChart3, search: undefined },
+      { to: "/calendar", label: "Calendar", icon: CalendarDays, search: undefined },
+      { to: "/goals", label: "Goals", icon: Target, search: undefined },
     ],
   },
+  {
+    label: "Resources",
+    items: [
+      { to: "/tools", label: "Creator Tools", icon: MonitorUp, search: undefined },
+      { to: "/assets", label: "Equipment", icon: Clapperboard, search: { tab: "equipment" } },
+    ],
+  },
+  { label: "", items: [{ to: "/settings", label: "Settings", icon: SettingsIcon, search: undefined }] },
 ] as const;
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <nav className="space-y-6">
-      {NAV.map((group) => (
-        <div key={group.label}>
-          <p className="mb-2 px-3 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-sidebar-muted">
-            {group.label}
-          </p>
-          <div className="space-y-0.5">
-            {group.items.map(({ to, label, icon: Icon }) => {
+    <nav className="space-y-5">
+      {NAV.map((group, gi) => (
+        <div key={gi}>
+          {group.label ? (
+            <p className="eyebrow mb-2 px-3 text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-sidebar-muted">
+              {group.label}
+            </p>
+          ) : null}
+          <div className="space-y-1">
+            {group.items.map(({ to, label, icon: Icon, search }) => {
               const active = pathname === to || pathname.startsWith(`${to}/`);
               return (
                 <Link
                   key={to}
                   to={to}
+                  search={search as never}
                   onClick={onNavigate}
-                  className={`group flex items-center gap-3 border-l px-3 py-2 text-sm transition-all ${
+                  className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${
                     active
-                      ? "border-primary bg-sidebar-accent font-medium text-sidebar-accent-foreground"
-                      : "border-transparent text-muted-foreground hover:border-sidebar-border hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+                      ? "bg-foreground/10 font-medium text-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.12)]"
+                      : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                   }`}
                 >
-                  <Icon className={`size-4 ${active ? "text-primary" : "group-hover:text-primary"}`} />
+                  <Icon className="size-4" />
                   {label}
+                  {active ? <span className="ml-auto size-1.5 rounded-full bg-foreground" /> : null}
                 </Link>
               );
             })}
@@ -118,40 +115,74 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 function Brand({ name }: { name: string }) {
   return (
-    <div className="border-b border-sidebar-border px-3 pb-5 pt-4">
-      <p className="section-title text-shine text-2xl">{name}</p>
-      <div className="mt-1 flex items-center gap-2">
-        <span className="h-px w-5 bg-primary/60" />
-        <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-sidebar-muted">4TV Creator HQ</p>
+    <div className="flex items-center gap-3 border-b border-sidebar-border px-3 pb-5 pt-4">
+      <ProfileAvatar size={46} />
+      <div>
+        <p className="section-title text-shine text-2xl leading-none">{name}</p>
+        <p className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-sidebar-muted">Creator HQ</p>
       </div>
     </div>
   );
 }
 
+type QAKind = "stream" | "challenge" | "marathon" | "subathon" | "irl" | "collab" | "video" | "idea" | "goal";
+const QA: { k: QAKind; label: string; icon: typeof Radio }[] = [
+  { k: "stream", label: "Stream", icon: Radio },
+  { k: "challenge", label: "Challenge", icon: Trophy },
+  { k: "marathon", label: "Marathon", icon: Clock3 },
+  { k: "subathon", label: "Subathon", icon: Headphones },
+  { k: "irl", label: "IRL", icon: MapPin },
+  { k: "collab", label: "Collab", icon: Handshake },
+  { k: "video", label: "YouTube", icon: Video },
+  { k: "idea", label: "Idea", icon: Lightbulb },
+  { k: "goal", label: "Goal", icon: Target },
+];
+
 export function QuickAdd({ label = "Quick Add" }: { label?: string }) {
-  const [open, setOpen] = useState<null | "video" | "stream" | "idea" | "analytics" | "goal">(null);
+  const [grid, setGrid] = useState(false);
+  const [open, setOpen] = useState<null | QAKind | "analytics">(null);
+  const navigate = useNavigate();
+  const qc = useQueryClient();
   const close = () => setOpen(null);
+  const pick = (k: QAKind) => {
+    setGrid(false);
+    if (k === "collab") navigate({ to: "/collabs" });
+    else setOpen(k);
+  };
+  const hubKind = open === "challenge" || open === "marathon" || open === "subathon" || open === "irl" ? open : null;
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button>
-            <Plus className="size-4" /> {label}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setOpen("video")}>YouTube video</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen("stream")}>Stream</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen("idea")}>Idea</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen("analytics")}>Analytics entry</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen("goal")}>Goal</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button onClick={() => setGrid(true)}>
+        <Plus className="size-4" /> <span className="hidden sm:inline">{label}</span>
+      </Button>
+      <Dialog open={grid} onOpenChange={setGrid}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="section-title text-4xl">What are you adding?</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-3 gap-3">
+            {QA.map(({ k, label: l, icon: Icon }) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => pick(k)}
+                className="card-secondary lift flex flex-col items-center gap-2 rounded-2xl px-3 py-5 text-sm font-medium"
+              >
+                <Icon className="size-6" />
+                {l}
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
       {open === "video" ? <VideoDialog open onOpenChange={close} /> : null}
       {open === "stream" ? <StreamDialog open onOpenChange={close} /> : null}
       {open === "idea" ? <IdeaDialog open onOpenChange={close} /> : null}
       {open === "analytics" ? <AnalyticsDialog open onOpenChange={close} /> : null}
       {open === "goal" ? <GoalDialog open onOpenChange={close} /> : null}
+      {hubKind ? (
+        <ItemDialog value={emptyItem(hubKind)} onClose={close} onSaved={() => qc.invalidateQueries({ queryKey: ["hub_items"] })} />
+      ) : null}
     </>
   );
 }
@@ -165,6 +196,12 @@ function GlobalSearch() {
   });
   const { data: streams = [] } = useQuery({ queryKey: ["streams"], queryFn: () => fetchAll("streams") });
   const { data: ideas = [] } = useQuery({ queryKey: ["ideas"], queryFn: () => fetchAll("ideas") });
+  const { data: items = [] } = useQuery({ queryKey: ["hub_items"], queryFn: () => fetchAll("hub_items") });
+  const { data: goals = [] } = useQuery({ queryKey: ["goals"], queryFn: () => fetchAll("goals") });
+  const { data: collabs = [] } = useQuery({ queryKey: ["collabs"], queryFn: () => fetchAll("collabs") });
+  const { data: creators = [] } = useQuery({ queryKey: ["creators"], queryFn: () => fetchAll("creators") });
+  const { data: setup = [] } = useQuery({ queryKey: ["setup_items"], queryFn: () => fetchAll("setup_items") });
+  const go = (fn: () => void) => () => { setOpen(false); fn(); };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -184,7 +221,7 @@ function GlobalSearch() {
         <span className="hidden sm:inline text-muted-foreground">Search everything</span>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search videos, streams and ideas..." />
+        <CommandInput placeholder="Search plans, collabs, videos, ideas, goals, tools..." />
         <CommandList>
           <CommandEmpty>Nothing found.</CommandEmpty>
           <CommandGroup heading="YouTube videos">
@@ -227,6 +264,38 @@ function GlobalSearch() {
               >
                 💡 {i.title}
               </CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandGroup heading="Plans">
+            {items.map((i: any) => (
+              <CommandItem key={i.id} value={`${i.title} ${i.kind} ${i.notes ?? ""}`}
+                onSelect={go(() => i.kind === "overlay" || i.kind === "equipment"
+                  ? navigate({ to: "/assets", search: { tab: i.kind } })
+                  : i.kind === "collab" ? navigate({ to: "/collabs" })
+                  : navigate({ to: "/live", search: { tab: i.kind } }))}>
+                {i.title} <span className="ml-auto text-xs text-muted-foreground">{i.kind}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandGroup heading="Collabs & creators">
+            {collabs.map((c: any) => (
+              <CommandItem key={c.id} value={`${c.title} collab`} onSelect={go(() => navigate({ to: "/collabs" }))}>🤝 {c.title}</CommandItem>
+            ))}
+            {creators.map((c: any) => (
+              <CommandItem key={c.id} value={`${c.display_name} ${c.username ?? ""} creator`} onSelect={go(() => navigate({ to: "/collabs" }))}>👤 {c.display_name}</CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandGroup heading="Goals & equipment">
+            {goals.map((g: any) => (
+              <CommandItem key={g.id} value={`${g.name} goal`} onSelect={go(() => navigate({ to: "/goals" }))}>🎯 {g.name}</CommandItem>
+            ))}
+            {setup.map((e: any) => (
+              <CommandItem key={e.id} value={`${e.name} ${e.category ?? ""} equipment`} onSelect={go(() => navigate({ to: "/assets", search: { tab: "equipment" } }))}>🎧 {e.name}</CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandGroup heading="Tools">
+            {["StreamElements", "Streamlabs", "7TV", "StreamCharts", "OBS", "Metricool", "Notion"].map((t) => (
+              <CommandItem key={t} value={`${t} tool`} onSelect={go(() => navigate({ to: "/tools" }))}>🛠 {t}</CommandItem>
             ))}
           </CommandGroup>
         </CommandList>
