@@ -111,7 +111,7 @@ function CollabsPage() {
   );
 }
 
-function Avatar({ creator }: { creator?: Creator }) {
+function Avatar({ creator }: { creator?: Creator | undefined }) {
   if (creator?.avatar_url) return <img src={creator.avatar_url} alt="" className="h-10 w-10 rounded-full border border-border object-cover" />;
   return (
     <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted font-display text-lg">
@@ -182,7 +182,7 @@ function FindCreator({ creators, onClose, onSelect }: { creators: Creator[]; onC
   );
 }
 
-function CollabDialog({ value, creators, onClose, onDelete }: { value: Partial<Collab>; creators: Creator[]; onClose: () => void; onDelete?: () => void }) {
+function CollabDialog({ value, creators, onClose, onDelete }: { value: Partial<Collab>; creators: Creator[]; onClose: () => void; onDelete?: (() => void) | undefined }) {
   const qc = useQueryClient();
   const [v, setV] = useState<Partial<Collab>>(value);
   const [more, setMore] = useState(Boolean(value.notes || value.segments));
