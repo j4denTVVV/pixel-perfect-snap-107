@@ -6,7 +6,7 @@ import { ExternalLink, Plus, Search, Trash2, ChevronDown } from "lucide-react";
 import { deleteRow, fetchAll, insertRow, updateRow } from "@/lib/api";
 import { shortDate } from "@/lib/hub";
 import { PageHeader, Field } from "@/components/hub/common";
-import { PLATFORMS, PLATFORM_META, PlatformBadges, PlatformPicker, isPlatform } from "@/components/hub/platforms";
+import { PLATFORM_META, PlatformBadges, PlatformPicker, isPlatform } from "@/components/hub/platforms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -249,4 +249,3 @@ function CollabDialog({ value, creators, onClose, onDelete }: { value: Partial<C
   );
 }
 
-void PLATFORMS;
