@@ -22,7 +22,13 @@ function CalendarPage() {
   const { data: goals = [] } = useQuery({ queryKey: ["goals"], queryFn: () => fetchAll("goals") });
   const { data: hub = [] } = useQuery({ queryKey: ["hub_items", "all"], queryFn: () => fetchAll<HubItem>("hub_items") });
 
+  const { data: collabs = [] } = useQuery({ queryKey: ["collabs"], queryFn: () => fetchAll("collabs") });
+
   const items: CalendarItem[] = [];
+  collabs.forEach((c: any) => {
+    if (c.collab_date && ["Confirmed", "Filmed", "Posted"].includes(c.status))
+      items.push({ date: c.collab_date, label: `Collab: ${c.title}`, kind: "event", onOpen: () => navigate({ to: "/collabs" }) });
+  });
   videos.forEach((v: any) => {
     const open = () => navigate({ to: "/youtube/$videoId", params: { videoId: v.id } });
     if (v.planned_upload_date) items.push({ date: v.planned_upload_date, label: v.working_title, kind: "upload", onOpen: open });
