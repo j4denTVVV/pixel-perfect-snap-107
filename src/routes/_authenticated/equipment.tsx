@@ -37,7 +37,7 @@ type Item = {
 // Store + image live inside notes as a small header so no schema change is needed.
 function parseNotes(n: string | null) {
   const m = /^\[\[(.*?)\|(.*?)\]\]\n?/s.exec(n ?? "");
-  return m ? { store: m[1], image: m[2], text: (n ?? "").slice(m[0].length) } : { store: "", image: "", text: n ?? "" };
+  return m ? { store: m[1] ?? "", image: m[2] ?? "", text: (n ?? "").slice(m[0].length) } : { store: "", image: "", text: n ?? "" };
 }
 const packNotes = (store: string, image: string, text: string) =>
   store || image ? `[[${store}|${image}]]\n${text}` : text;
