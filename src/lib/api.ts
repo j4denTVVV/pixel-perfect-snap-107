@@ -66,6 +66,7 @@ export type Settings = {
   target_shorts: number;
   target_followers: number;
   socials: unknown;
+  preferences?: unknown;
 };
 
 export async function fetchSettings(): Promise<Settings> {
