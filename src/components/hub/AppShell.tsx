@@ -68,7 +68,7 @@ const NAV = [
     label: "Resources",
     items: [
       { to: "/tools", label: "Creator Tools", icon: MonitorUp, search: undefined },
-      { to: "/assets", label: "Equipment", icon: Clapperboard, search: { tab: "equipment" } },
+      { to: "/equipment", label: "Equipment", icon: Clapperboard, search: undefined },
     ],
   },
   { label: "", items: [{ to: "/settings", label: "Settings", icon: SettingsIcon, search: undefined }] },
@@ -290,7 +290,7 @@ function GlobalSearch() {
               <CommandItem key={g.id} value={`${g.name} goal`} onSelect={go(() => navigate({ to: "/goals" }))}>🎯 {g.name}</CommandItem>
             ))}
             {setup.map((e: any) => (
-              <CommandItem key={e.id} value={`${e.name} ${e.category ?? ""} equipment`} onSelect={go(() => navigate({ to: "/assets", search: { tab: "equipment" } }))}>🎧 {e.name}</CommandItem>
+              <CommandItem key={e.id} value={`${e.name} ${e.category ?? ""} equipment`} onSelect={go(() => navigate({ to: "/equipment" }))}>🎧 {e.name}</CommandItem>
             ))}
           </CommandGroup>
           <CommandGroup heading="Tools">

@@ -1,3 +1,4 @@
+import { SubGoalsLadder } from "@/components/hub/SubGoals";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -29,6 +30,7 @@ function GoalsPage() {
         subtitle="What you're working towards."
         action={<Button onClick={() => setOpen(true)}>New goal</Button>}
       />
+      <div className="mb-8"><SubGoalsLadder /></div>
       {goals.length === 0 ? (
         <EmptyState title="No goals yet" />
       ) : (

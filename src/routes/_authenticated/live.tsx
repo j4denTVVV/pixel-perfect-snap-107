@@ -1,3 +1,4 @@
+import { SubGoalsLadder } from "@/components/hub/SubGoals";
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -119,6 +120,7 @@ function LivePlanner() {
         onChange={(t) => navigate({ to: "/live", search: t === "all" ? {} : { tab: t } })}
         tabs={TABS.map((t) => ({ value: t, label: t === "all" ? "All" : `${TYPE_META[t].label}s` }))}
       />
+      {tab === "subathon" ? <div className="mb-8"><SubGoalsLadder /></div> : null}
       {cards.length === 0 ? (
         tab === "all" ? (
           <StudioEmpty icon={<Radio className="size-5" />} title="Nothing planned yet." text="Choose what you want to create:">

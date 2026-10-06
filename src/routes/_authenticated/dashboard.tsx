@@ -10,6 +10,7 @@ import { CountUp, GoldBar, ProfileAvatar, Rise, Stagger, countdown } from "@/com
 import { TYPE_META } from "@/components/hub/LiveCard";
 import { PlatformLogo } from "@/components/hub/platforms";
 import { Button } from "@/components/ui/button";
+import { SubGoalsCompact } from "@/components/hub/SubGoals";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -152,7 +153,9 @@ function Overview() {
           )}
         </section>
 
-        <section className="card-primary rounded-3xl p-6">
+        <Rise><SubGoalsCompact /></Rise>
+
+        <section className="card-primary rounded-3xl p-6 lg:col-span-3">
           <h2 className="section-title text-4xl">THIS MONTH</h2>
           <div className="mt-4 grid grid-cols-2 gap-3">
             {month.map((m) => (
